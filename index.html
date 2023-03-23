@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <style>
+         td, th {
+         border: 0px solid black;
+         }
+         img{
+         padding: 5px;
+         }
+      </style>
+      <title>Sketch2Saliency: Learning to Detect Salient Objects from Human Drawings</title>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <!--  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+         <script>
+           window.dataLayer = window.dataLayer || [];
+         
+           function gtag() {
+             dataLayer.push(arguments);
+           }
+         
+           gtag('js', new Date());
+         
+           gtag('config', 'G-PYVRSFMDRL');
+         
+         
+         
+         </script> -->
+      <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+         rel="stylesheet">
+      <link rel="stylesheet" href="./static/css/bulma.min.css">
+      <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+      <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+      <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+      <link rel="stylesheet"
+         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+      <link rel="stylesheet" href="./static/css/index.css">
+      <link rel="icon" href="./static/images/favicon.svg">
+      <link rel="stylesheet" href="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.css">
+      <link rel="stylesheet" href="css/app.css">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <script src="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script defer src="./static/js/fontawesome.all.min.js"></script>
+      <script src="./static/js/bulma-carousel.min.js"></script>
+      <script src="./static/js/bulma-slider.min.js"></script>
+      <script src="./static/js/index.js"></script>
+   </head>
+   <!-- <body>
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="navbar-menu">
+          <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+            <a class="navbar-item" href="https://keunhong.com">
+            <span class="icon">
+                <i class="fas fa-home"></i>
+            </span>
+            </a>
+      
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                More Research
+              </a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="https://hypernerf.github.io">
+                  HyperNeRF
+                </a>
+                <a class="navbar-item" href="https://nerfies.github.io">
+                  Nerfies
+                </a>
+                <a class="navbar-item" href="https://latentfusion.github.io">
+                  LatentFusion
+                </a>
+                <a class="navbar-item" href="https://photoshape.github.io">
+                  PhotoShape
+                </a>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </nav> -->
+   <section class="hero">
+      <div class="hero-body">
+         <div class="container is-max-desktop">
+            <div class="columns is-centered">
+               <div class="column has-text-centered">
+                  <h1 class="title is-1 publication-title", style="color:purple;">Sketch2Saliency:</h1>
+                  <h1 class="title is-4 publication-title">Learning to Detect Salient Objects from Human Drawings</h1>
+                  <div class="is-size-5 publication-authors">
+                     <span class="author-block">
+					 <a href="https://ayankumarbhunia.github.io/">Ayan Kumar Bhunia</a><sup>1</sup>,</span>
+                     <span class="author-block">
+                     <a href="https://subhadeepkoley.github.io/">Subhadeep Koley</a><sup>1,2</sup>,</span>
+                     <span class="author-block">
+                     <a href="">Amandeep Kumar</a><sup></sup>,</span>
+                     <span class="author-block">
+                     <a href="https://aneeshan95.github.io/">Aneeshan Sain</a><sup>1,2</sup>,</span>
+                     <span class="author-block">
+                     <a href="http://www.pinakinathc.me/">Pinaki Nath Chowdhury</a><sup>1,2</sup>,</span>
+                     <span class="author-block">
+                     <a href="http://personal.ee.surrey.ac.uk/Personal/T.Xiang/index.html">Tao Xiang</a><sup>1,2</sup>,</span>
+                     <span class="author-block">
+                     <a href="http://personal.ee.surrey.ac.uk/Personal/Y.Song/">Yi-Zhe Song</a><sup>1,2</sup></span>	  
+                     </span>
+                  </div>
+                  <div class="is-size-5 publication-authors">
+                     <span class="author-block"><sup>1</sup>SketchX, CVSSP, University of Surrey, United Kingdom</span>
+                     <span class="author-block"><sup>2</sup>iFlyTek-Surrey Joint Research Centre on Artifiial Intelligence</span>
+                  </div>
+                  <!--     <div class="column has-text-centered">
+                     <a href="as">ICLR 2023</a>
+                     </span>
+                     </div> -->
+                  <div class="column has-text-centered">
+                     <div class="publication-links">
+                        <!-- PDF Link. -->
+                        <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2303.11502.pdf"
+                           class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                        </a>
+                        </span>
+                        <span class="link-block">
+                        <a href="https://arxiv.org/abs/2303.11502"
+                           class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                        </span>
+                        <span>arXiv</span>
+                        </a>
+                        </span>
+                        <!-- Video Link. -->
+                        <span class="link-block">
+                        <a href=""
+                           class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                        <i class="fab fa-youtube"></i>
+                        </span>
+                        <span>Video</span>
+                        </a>
+                        </span>
+                        <!-- Code Link. -->
+                        <span class="link-block">
+                        <a href="https://github.com/AyanKumarBhunia/Sketch2Saliency"
+                           class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                        <i class="fab fa-github"></i>
+                        </span>
+                        <span>Code</span>
+                        </a>
+                        </span>
+                        <!-- Dataset Link. -->
+                        <!-- <span class="link-block">
+                           <a href=""
+                              class="external-link button is-normal is-rounded is-dark">
+                             <span class="icon">
+                                 <i class="far fa-images"></i>
+                             </span>
+                             <span>Data</span>
+                           </a> -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <section class="hero teaser">
+      <div class="container is-max-desktop">
+         <div class="hero-body">
+            <img class="round" style="width:1500px" src="./static/images/teaser.png"/>
+            <h2 class="subtitle has-text-centered">
+               <span class="dnerf"></span>  Sequential photo-to-sketch generation with 2D-attention to leverage sketch as a weak label for salient object detection. Aggregated 2D attention-maps till a particular instant are shown.
+            </h2>
+         </div>
+      </div>
+   </section>
+   <!-- <table border="1" id="cssTable">
+      <tr>
+          <td>Text</td>
+          <td>Text</td>
+      </tr>
+      </table> -->
+   <!-- 
+      <section class="hero is-light is-small">
+        <div class="hero-body">
+          <div class="container">
+            <div id="results-carousel" class="carousel results-carousel">
+              <div class="item item-steve">
+                <video poster="" id="steve" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/steve.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-chair-tp">
+                <video poster="" id="chair-tp" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/chair-tp.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-shiba">
+                <video poster="" id="shiba" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/shiba.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-fullbody">
+                <video poster="" id="fullbody" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/fullbody.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-blueshirt">
+                <video poster="" id="blueshirt" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/blueshirt.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-mask">
+                <video poster="" id="mask" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/mask.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-coffee">
+                <video poster="" id="coffee" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/coffee.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+              <div class="item item-toby">
+                <video poster="" id="toby" autoplay controls muted loop height="100%">
+                  <source src="https://homes.cs.washington.edu/~kpar/nerfies/videos/toby2.mp4"
+                          type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+       -->
+   <section class="section">
+   <div class="container is-max-desktop">
+   <!-- Abstract. -->
+   <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+         <h2 class="title is-3">Abstract</h2>
+         <div class="content has-text-justified">
+            Human sketch has already proved its worth in various visual understanding tasks (e.g., retrieval, segmentation, image-captioning, etc). In this paper, we reveal a new trait of sketches - that they are also salient. This is intuitive as sketching is a natural attentive process at its core. More specifically, we aim to study how sketches can be used as a weak label to detect salient objects present in an image. To this end, we propose a novel method that emphasises on how "salient object" could be explained by hand-drawn sketches. To accomplish this, we introduce a photo-to-sketch generation model that aims to generate sequential sketch coordinates corresponding to a given visual photo through a 2D attention mechanism. Attention maps accumulated across the time steps give rise to salient regions in the process. Extensive quantitative and qualitative experiments prove our hypothesis and delineate how our sketch-based saliency detection model gives a competitive performance compared to the state-of-the-art.
+            </p>
+         </div>
+      </div>
+   </div>
+   <!--/ Abstract. -->
+   <!-- Paper video. -->
+   
+   <section class="section">
+      <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+         <div class="column is-four-fifths">
+            <h2 class="title is-3">Architecture</h2>
+            <div class="content has-text-justified">
+               </h2>
+               <center>
+                  <img src="./static/images/arch.png" alt="" border=0 height=300 width=650></img></
+               </center>
+               <h5 class="subtitle has-text-centered">
+                Illustration of photo-to-sketch generation process to learn image saliency from sketch labels. Attention maps accumulated across the time steps give rise to the saliency map.
+
+			   </h5>
+               &nbsp; 
+            </div>
+			
+            <div class="content has-text-justified">
+               </h2>
+               <center>
+                  <img src="./static/images/norm.png" alt="" border=0 height=300 width=650></img></
+               </center>
+               <h5 class="subtitle has-text-centered">
+                Example photo-sketch pairs with original, absolute coordinate rasterised and scale normalised photos being at the top, middle and bottom respectively. It is evident that photo and sketches are not aligned even after scale normalisation, as sketch is not a pixel-wise tracing of photo edge map. This invalidates the use of classical template matching algorithms for our problem.
+
+			   </h5>
+               &nbsp; 
+            </div>
+			
+            <div class="content has-text-justified">
+               </h2>
+               <center>
+                  <img src="./static/images/attnMap.png" alt="" border=0 height=300 width=650></img></
+               </center>
+               <h5 class="subtitle has-text-centered">
+                Visualisation of raw attention-map obtained via sketch as a weak label for saliency detection. While most existing weakly supervised methods involve heuristic-based post-processing techniques, all results shown here are directly predicted by the network without any post-processing.
+
+			   </h5>
+               &nbsp; 
+            </div>			
+			
+         </div>
+      </div>
+   </section>
+   
+   
+   
+
+   <section class="hero">
+   <div class="hero-body">
+   <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+         <div class="column is-four-fifths">
+            <h2 class="title is-3">Results</h2>
+            <div class="content has-text-justified">
+               <center>
+                  <img src="static/images/qual.png" alt="this slowpoke moves" border=0 height=600 width=3000/>
+               </center>
+               <h5 class="subtitle has-text-centered">
+               Qualitative results on weakly supervised saliency detection using (a) class-label + sketch (b) class-label + text-caption (c) only sketch (d) only text-caption (e) only class-label. Use of sketch over text-caption significantly improves the quality of saliency map.
+            </div>
+         </div>
+      </div>
+   </div>
+   <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+         <h2 class="title">BibTeX</h2>
+         <pre><code>@inproceedings{bhunia2023sketch2saliency,
+author = {Ayan Kumar Bhunia and Subhadeep Koley and Amandeep Kumar and Aneeshan Sain and Pinaki Nath Chowdhury and Tao Xiang and Yi-Zhe Song},
+title = {{Sketch2Saliency: Learning to Detect Salient Objects from Human Drawings}},
+booktitle = {CVPR},
+year = {2023}}</code></pre>
+      </div>
+   </section>
+   <script>
+      const viewers = document.querySelectorAll(".image-compare");
+      viewers.forEach((element) => {
+          let view = new ImageCompare(element, {
+              hoverStart: true,
+              addCircle: true
+          }).mount();
+      });
+      
+      $(document).ready(function () {
+          var editor = CodeMirror.fromTextArea(document.getElementById("bibtex"), {
+              lineNumbers: false,
+              lineWrapping: true,
+              readOnly: true
+          });
+          $(function () {
+              $('[data-toggle="tooltip"]').tooltip()
+          })
+      });
+   </script>
+   <br>
+   <p style="text-align:center">Copyright: CC BY-NC-SA 4.0 © Ayan Kumar Bhunia | Last updated: 24 Mar 2023 |Template Credit: <a href="https://nerfies.github.io/"> Nerfies</a></p>
+   </body>
+</html>
