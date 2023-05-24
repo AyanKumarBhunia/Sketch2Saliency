@@ -1,4 +1,4 @@
-# Official repository of **Sketch2Saliency: Learning to Detect Salient Objects from Human Drawings**
+# **Sketch2Saliency: Learning to Detect Salient Objects from Human Drawings**
 
 Accepted in **CVPR 2023**
 
